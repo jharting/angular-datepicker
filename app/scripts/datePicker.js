@@ -123,7 +123,7 @@ Module.directive('datePicker', ['datePickerConfig', 'datePickerUtils', function 
 
         var nextView = scope.views[scope.views.indexOf(scope.view) + 1];
         if ((!nextView || partial) || scope.model) {
-          setDate(date);
+          setDate(date, true);
         }
 
         if (nextView) {
@@ -136,18 +136,18 @@ Module.directive('datePicker', ['datePickerConfig', 'datePickerUtils', function 
         }
       };
 
-      setDate = function (date) {
+      setDate = function (date, explicit) {
         if (date) {
           scope.model = date;
           if (ngModel) {
             ngModel.$setViewValue(date);
           }
         }
-        scope.$emit('setDate', scope.model, scope.view);
+        scope.$emit('setDate', scope.model, scope.view, explicit);
 
         //This is duplicated in the new functionality.
         if (scope.callbackOnSetDate) {
-          scope.callbackOnSetDate(attrs.datePicker, scope.date);
+          scope.callbackOnSetDate(attrs.datePicker, scope.date, explicit);
         }
       };
 
@@ -271,7 +271,7 @@ Module.directive('datePicker', ['datePickerConfig', 'datePickerUtils', function 
         date = clipDate(date);
         if (date) {
           scope.date = date;
-          setDate(date);
+          setDate(date, false);
           arrowClick = true;
           update();
         }
