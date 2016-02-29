@@ -1,4 +1,10 @@
 'use strict';
+
+// workaround for a weird insights layout
+if (!angular.module) {
+  angular = window.angular;
+}
+
 var Module = angular.module('datePicker', []);
 
 Module.constant('datePickerConfig', {
