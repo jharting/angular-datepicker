@@ -5,3 +5,5 @@ app/components
 .idea
 *.iml
 .DS_Store
+dist
+
