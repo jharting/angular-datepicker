@@ -45,7 +45,7 @@ Module.directive('datePicker', ['datePickerConfig', 'datePickerUtils', function 
     require: '?ngModel',
     template: '<div ng-include="template"></div>',
     scope: {
-      model: '=datePicker',
+      model: '=?datePicker',
       after: '=?',
       before: '=?'
     },
@@ -138,7 +138,9 @@ Module.directive('datePicker', ['datePickerConfig', 'datePickerUtils', function 
 
       setDate = function (date, explicit) {
         if (date) {
-          scope.model = date;
+          if ((scope.model !== 0 && attrs.datePicker !== 'date-picker') || (!angular.isDefined(scope.model) && !angular.isDefined(attrs.datePicker))) {
+            scope.model = date;
+          }
           if (ngModel) {
             ngModel.$setViewValue(date);
           }
