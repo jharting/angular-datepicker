@@ -47,7 +47,8 @@ Module.directive('datePicker', ['datePickerConfig', 'datePickerUtils', function 
     scope: {
       model: '=?datePicker',
       after: '=?',
-      before: '=?'
+      before: '=?',
+      highlights: '=?'
     },
     link: function (scope, element, attrs, ngModel) {
       function prepareViews() {
@@ -87,7 +88,8 @@ Module.directive('datePicker', ['datePickerConfig', 'datePickerUtils', function 
         isSame,
         clipDate,
         isNow,
-        inValidRange;
+        inValidRange,
+        highlights;
 
       datePickerUtils.setParams(tz, firstDay);
 
@@ -202,11 +204,25 @@ Module.directive('datePicker', ['datePickerConfig', 'datePickerUtils', function 
         });
       }
 
+      if (angular.isDefined(attrs.highlights)) {
+        scope.$watchCollection('highlights', function (value) {
+          if (angular.isDefined(value)) {
+            if (!angular.isArray(value)) {
+              throw new Error('Invalid highlights object ' + value);
+            }
+            highlights = value.map(function (date) {
+              return moment(date);
+            });
+            update();
+          }
+        });
+      }
+
       prepareViewData = function () {
         var view = scope.view,
           date = scope.date,
           classes = [], classList = '',
-          i, j;
+          i, j, k;
 
         datePickerUtils.setParams(tz, firstDay);
 
@@ -227,6 +243,17 @@ Module.directive('datePicker', ['datePickerConfig', 'datePickerUtils', function 
               if (week[j].month() !== date.month() || !inValidRange(week[j])) {
                 classList += ' disabled';
               }
+              if (highlights && highlights.length && !classList.length) {
+                // this class is of least priority
+                // therefore only add it if no other class is added
+                for (k = 0; k < highlights.length; k++) {
+                  if (datePickerUtils.isSameDay(highlights[k], week[j])) {
+                    classList += ' highlighted';
+                    break;
+                  }
+                }
+              }
+
               classes[i].push(classList);
             }
           }

@@ -1,8 +1,8 @@
 @import "variables.less";
 @import "mixins.less";
 
-.date-picker-date-time {		
-  position: absolute;		
+.date-picker-date-time {
+  position: absolute;
 }
 
 .date-range .date-picker-date-time {
@@ -81,7 +81,7 @@
 
   }
 
-  .active , .now{
+  .active , .now, .highlighted {
     .buttonBackground(@btnPrimaryBackground, spin(@btnPrimaryBackground, 20));
     color: #fff;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, .25);
@@ -89,6 +89,10 @@
 
   .now {
     .buttonBackground(@btnDangerBackground, spin(@btnDangerBackground, 20));
+  }
+
+ .highlighted {
+    .buttonBackground(@btnHighlightBackground, spin(@btnHighlightBackground, 20));
   }
 
   .disabled {
