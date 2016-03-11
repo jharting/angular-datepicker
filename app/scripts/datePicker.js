@@ -37,7 +37,7 @@ Module.filter('mFormat', function () {
   };
 });
 
-Module.directive('datePicker', ['datePickerConfig', 'datePickerUtils', function datePickerDirective(datePickerConfig, datePickerUtils) {
+Module.directive('datePicker', ['datePickerConfig', 'datePickerUtils', '$interpolate', function datePickerDirective(datePickerConfig, datePickerUtils, $interpolate) {
 
   //noinspection JSUnusedLocalSymbols
   return {
@@ -77,7 +77,7 @@ Module.directive('datePicker', ['datePickerConfig', 'datePickerUtils', function 
         partial = !!attrs.partial,
         minDate = getDate('minDate'),
         maxDate = getDate('maxDate'),
-        pickerID = element[0].id,
+        pickerID = $interpolate(element[0].id)(scope),
         now = scope.now = createMoment(),
         selected = scope.date = createMoment(scope.model || now),
         autoclose = attrs.autoClose === 'true',
