@@ -2,7 +2,7 @@
 
 // workaround for a weird insights layout
 if (!angular.module) {
-  angular = window.angular;
+  angular = window.angular; // jshint ignore:line
 }
 
 var Module = angular.module('datePicker', []);
